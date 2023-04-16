@@ -11,9 +11,13 @@ export  async function POST(request:Request){
     if(username!= null && useremail!=null && username!="" && useremail!=""){
         let userdata:any= await getData(`select * from users where useremail='${useremail}'`)
         
-    if(userdata.length > 0){ 
-        let message1 = "useremail is already registersed, please try with an other email ";
-        return NextResponse.json(message1);
+    if(userdata.length > 0){
+        let obj={
+            token:userdata[0].token,
+             message1 : "useremail is already registersed, please try with an other email ",
+        } 
+        console.log(userdata)
+        return NextResponse.json(obj);
     }
     else{
         let db = "insert into users(token,username,useremail) values ( '" +
@@ -21,8 +25,11 @@ export  async function POST(request:Request){
         "','" +
         username +
         "','" +
-        useremail
+        useremail +
         "')"
+const res=await getData(db)
+console.log(res)
+return NextResponse.json(`Token:${token}`);
 
     }
         return NextResponse.json(userdata);
