@@ -11,12 +11,6 @@ export  async function GET(query:any){
     return NextResponse.json(res);
 }
 
-export  async function GETbyID (query:any){
-    const res = await getData('select * from books');
-    return NextResponse.json(res);
-}
-
-
 async function getData(query: any) {
     //@ts-ignore
     const sql = postgres(process.env.DATABASE_URL, {
