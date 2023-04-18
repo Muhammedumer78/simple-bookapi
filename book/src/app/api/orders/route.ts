@@ -39,3 +39,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Body Isn't Provided" }, { status: 500 });
   }
 }
+
+
+
+export async function GET(request: Request) {
+   // @ts-ignore
+   const sql = postgres(process.env.DATABASE_URL, {
+    ssl: require,
+  });
+  let token = await request.headers.get("authtoken");
+  const orders = await sql.unsafe(
+    `select * from orders where createdby='${token}'`
+  );
+  if (orders.length ==0) {
+    return NextResponse.json(
+      { error: "No Order exist" },
+      { status: 404 }
+    )
+  }else{
+    return NextResponse.json(
+      orders
+    )
+  }
+}

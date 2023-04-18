@@ -25,11 +25,11 @@ export async function middleware(request: Request) {
         statusText: "User not registered",
       });
     } else {
-      return NextResponse.rewrite(new URL("/api/orders", request.url));
+      return NextResponse.rewrite(new URL(request.url));
     }
   }
 }
 
 export const config = {
-  matcher: "/api/orders",
+  matcher: '/api/orders/:path*',
 };
