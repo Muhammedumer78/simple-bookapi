@@ -1,6 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import postgres from "postgres";
 
-export async function POST(request:Request) {
+export async function POST(request: Request) {
   let token = await request.headers.get("authtoken");
   let crypto = require("crypto");
   let orderId = crypto.randomBytes(12).toString("hex");
@@ -12,26 +13,21 @@ export async function POST(request:Request) {
       clientName != "" &&
       bookId != ""
     ) {
-      //@ts-ignore
+      // @ts-ignore
       const sql = postgres(process.env.DATABASE_URL, {
         ssl: require,
       });
 
       const bookdata = await sql.unsafe(
-        `select * from book where id='${bookId}'`
+        `select * from books where id='${bookId}'`
       );
-
-      if (bookdata.length > 0) {
-        return NextResponse.json(
-          { error: "No Book found" },
-          { status: 404 }
-        );
+      if (bookdata.length == 0) {
+        return NextResponse.json({ error: "No Book found" }, { status: 404 });
       } else {
         const res = await sql.unsafe(
-          `insert into orders(id,bookId,customerName,createdBy) values ('${orderId},${bookId}','${clientName}','${token}')`
+          `insert into orders(id,bookId,customerName,createdBy) values ('${orderId}','${bookId}','${clientName}','${token}')`
         );
-        return NextResponse.json({ accessToken: token });
-
+        return NextResponse.json({ orderId: orderId, success: "order placed" });
       }
     } else {
       return NextResponse.json(
@@ -43,4 +39,3 @@ export async function POST(request:Request) {
     return NextResponse.json({ error: "Body Isn't Provided" }, { status: 500 });
   }
 }
- 
