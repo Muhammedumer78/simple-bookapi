@@ -1,20 +1,32 @@
-import React from 'react'
-import Image from 'next/image'
+import React from "react";
+import Image from "next/image";
 import png from "../../public/img4.png";
-import Link from 'next/link';
+import Link from "next/link";
 export default function Header() {
   return (
-    <div className='flex flex-row md:flex-col sm:flex-col'>
-      <div className='w-full h-50 '>
-        <Image src={png} alt="books" className='h-50 w-55 md:h-auto w-auto sm:w-auto h-auto'></Image>
-       
-        <Link className='font-serif mt-16 ml-24 cursor-pointer hover:underline  text-2xl' href='http://localhost:3000/api/books'>F I C T I O N</Link>
-        
-        <Link className='font-serif mt-16 ml-24 cursor-pointer hover:underline  text-2xl' href='http://localhost:3000/api/books'>N O N   F I C T I O N</Link>
-        
-        <Link className='font-serif mt-16 ml-24 cursor-pointer hover:underline  text-2xl' href='http://localhost:3000/api/books'>I R</Link>
+    <div >
+      <h1 className="text-center font-sans font-bold text-4xl flex justify-center p-16 underline">
+        S I M P L E- B O O K - A P I
+      </h1>
+      <div>
+        <p className="font-serif font-bold px-6 text-2xl">
+          Vercel API: https://book-lovat-gamma.vercel.app/
+        </p>
+        <h2 className="text-3xl font-mono font-bold px-6 py-5">
+          End points :
+          </h2>
+          <div className="text-xl font-bold font-serif p-3">
+          <p>1. GET/status (for books status)</p>
+          <p> 2. GET/books (all books)</p>
+          <p>3. GET/books/:id (for book by id)</p>
+          <p>4. GET/api-client (for authorization)</p>
+          <p> 5. POST/orders (for placing books order)</p>
+          <p> 6. GET/orders (for the books order)</p>
+          <p>7. GET/orders/:id (for the order by id)</p>
+          <p>8. DELETE/order/:id (for delete)</p>
+          <p>9. PATCH/order/:id (for updating)</p>
+          </div>
       </div>
-    
     </div>
-  )
+  );
 }
